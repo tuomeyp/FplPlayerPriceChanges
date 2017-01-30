@@ -1,0 +1,76 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Fantasy Football Price Changes Api
+  description: Get data on fantasy fottball price changes
+  version: "1.0.0"
+# the domain of the service
+host: localhots:8080
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /playerpricechanges
+produces:
+  - application/json
+paths:
+  /all:
+    get:
+      summary: Get All Weekly Price Change Data
+      description: |
+        This api get data froma third party fantasy football website an xposed it as a get request
+      tags:
+        - Fanatsy
+      responses:
+        200:
+          description: An array of price change objects
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PriceChanges'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  PriceChanges:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier representing a specific player
+      name:
+        type: string
+        description: Players Name
+      club:
+        type: string
+        description: Name of players Club
+      status:
+        type: string
+        description: Flag to show if a player is active for price changes
+      percentageOwned:
+        type: string
+        description: Percentage of managers who own thsi player
+      price:
+        type: string
+        description: Prive of player
+      changes:
+        type: string
+        description: No of price changes this week
+      delta:
+        type: string
+        description: Number of transfers thsi week
+      target:
+        type: string
+        description: Percentage of price rise target reached
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
